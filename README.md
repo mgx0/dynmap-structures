@@ -4,9 +4,41 @@ A Bukkit plugin that shows your world's structures (such as Villages, Stronghold
 
 [![](preview.png)](https://d.kovuthehusky.com/dynmap-structures)
 
+## Minecraft 26.2 and 26.3
+
+This build supports Minecraft 26.2 and 26.3 and requires Java 25 and Gradle 9.1.0.
+Run `gradle clean build` and install `build/libs/dynmap-structures-2.7.0-all.jar`
+alongside a compatible Dynmap plugin. Use the `-all.jar`, which includes bStats.
+The distributed JAR compiles against 26.2 and keeps `api-version: '26.2'`.
+To test and compile against 26.3, run
+`gradle clean build -PminecraftApi=26.3-R0.1-SNAPSHOT`.
+
+Structures are read from generated chunk data, with up to eight queued chunks
+processed per server tick. Chunks already loaded at startup are queued too.
+This plugin does not search for nearby structures, load chunks, generate terrain,
+or scan the whole world. Undiscovered structures appear as their chunks load.
+Markers use bounding-box centers, including the actual vertical position.
+Unknown and custom datapack structure types are ignored.
+
+### Upgrading from 2.6.2
+
+Back up your Dynmap marker data before upgrading. Existing configuration keys,
+labels, icons, and layer settings are retained. The canonical `layer.nolabels`
+setting is now honored, with `layer.noLabels` accepted as a legacy fallback.
+Ancient cities (`ancientcity`) and trial chambers (`trialchambers`) are enabled
+by default and reuse the bundled mansion and fortress icons respectively.
+
+Recognized legacy auto-generated marker IDs in the configured layer are removed
+and rebuilt as their chunks load, so some markers may temporarily disappear.
+Unrelated markers are left untouched. Custom markers using exactly the legacy
+`category,x,z` naming convention cannot be distinguished from generated markers.
+New IDs include world identity, exact structure type, and bounding-box identity,
+preventing duplicates across intersecting chunks or different worlds.
+
 ## Features
 
-* Adds markers to [Dynmap](https://dev.bukkit.org/projects/dynmap) where all structures are located.
+* Adds markers to [Dynmap](https://dev.bukkit.org/projects/dynmap) for supported structures in loaded chunks.
+* Supports Ancient Cities and Trial Chambers in addition to the categories below.
 * Currently supports the following structures in the following dimensions:
     * Overworld: [Buried Treasure](https://minecraft.gamepedia.com/Buried_Treasure), [Desert Pyramid](https://minecraft.gamepedia.com/Desert_pyramid), [Igloo](https://minecraft.gamepedia.com/Igloo), [Jungle Pyramid](https://minecraft.gamepedia.com/Jungle_pyramid), [Mineshaft](https://minecraft.gamepedia.com/Mineshaft), [Ocean Monument](https://minecraft.gamepedia.com/Ocean_Monument), [Ocean Ruins](https://minecraft.gamepedia.com/Ocean_Ruins), [Pillager Outpost](https://minecraft.gamepedia.com/Pillager_Outpost), [Ruined Portal](https://minecraft.gamepedia.com/Ruined_Portal), [Shipwreck](https://minecraft.gamepedia.com/Shipwreck), [Stronghold](https://minecraft.gamepedia.com/Stronghold), [Village](https://minecraft.gamepedia.com/Village), [Swamp Hut](https://minecraft.gamepedia.com/Swamp_hut), [Woodland Mansion](https://minecraft.gamepedia.com/Woodland_Mansion).
     * Nether: [Bastion Remnant](https://minecraft.gamepedia.com/Bastion_Remnant), [Nether Fortress](https://minecraft.gamepedia.com/Nether_Fortress), [Nether Fossil](https://minecraft.gamepedia.com/Nether_Fossil), [Ruined Portal](https://minecraft.gamepedia.com/Ruined_Portal).

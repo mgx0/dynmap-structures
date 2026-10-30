@@ -4,12 +4,14 @@ plugins {
   id 'java'
   id 'eclipse'
   id 'idea'
-  id 'com.github.johnrengelman.shadow' version '8.1.1'
+  id 'com.gradleup.shadow' version '9.2.2'
 }
 
 group = 'com.kovuthehusky'
-version = '2.6.2'
-sourceCompatibility = '1.8'
+version = '2.7.0'
+java {
+  sourceCompatibility = JavaVersion.VERSION_25
+}
 
 processResources {
   filesNotMatching("**/*.png") {
@@ -20,9 +22,20 @@ processResources {
 }
 
 dependencies {
-  compileOnly 'org.spigotmc:spigot-api:1.21.1-R0.1-SNAPSHOT'
+  def minecraftApi = "org.spigotmc:spigot-api:${providers.gradleProperty('minecraftApi').getOrElse('26.2-R0.1-SNAPSHOT')}"
+  compileOnly minecraftApi
   implementation 'org.bstats:bstats-bukkit:3.0.3'
   compileOnly 'org.dynmap:DynmapCoreAPI:1.9.4'
+  testImplementation minecraftApi
+  testImplementation 'org.dynmap:DynmapCoreAPI:1.9.4'
+  testImplementation platform('org.junit:junit-bom:5.13.4')
+  testImplementation 'org.junit.jupiter:junit-jupiter'
+  testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+  testImplementation 'org.mockito:mockito-core:5.20.0'
+}
+
+test {
+  useJUnitPlatform()
 }
 
 repositories {
@@ -33,7 +46,7 @@ repositories {
 
 shadowJar {
   dependencies {
-    include(dependency('org.bstats::'))
+    include(dependency('org.bstats:.*:.*'))
   }
   relocate 'org.bstats', 'com.kovuthehusky.bstats'
 }

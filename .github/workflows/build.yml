@@ -3,6 +3,16 @@ on: push
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        minecraft-api: ['26.2-R0.1-SNAPSHOT', '26.3-R0.1-SNAPSHOT']
     steps:
       - uses: actions/checkout@v2
-      - run: gradle build
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '25'
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '9.1.0'
+      - run: gradle clean build -PminecraftApi=${{ matrix.minecraft-api }}
