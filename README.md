@@ -7,7 +7,7 @@ A Bukkit plugin that shows your world's structures (such as Villages, Stronghold
 ## Minecraft 26.2 and 26.3
 
 This build supports Minecraft 26.2 and 26.3 and requires Java 25 and Gradle 9.1.0.
-Run `gradle clean build` and install `build/libs/dynmap-structures-2.7.0-all.jar`
+Run `gradle clean build` and install `build/libs/dynmap-structures-26.3.0-all.jar`
 alongside a compatible Dynmap plugin. Use the `-all.jar`, which includes bStats.
 The distributed JAR compiles against 26.2 and keeps `api-version: '26.2'`.
 To test and compile against 26.3, run

@@ -95,7 +95,7 @@ final class StructureMarkers {
     void scan(Chunk chunk) {
         World world = chunk.getWorld();
         for (GeneratedStructure structure : chunk.getStructures()) {
-            mark(world, structure.getStructure().getKeyOrThrow(), structure.getBoundingBox());
+            mark(world, structure.getStructure().getKey(), structure.getBoundingBox());
         }
     }
 
